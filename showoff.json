@@ -1,0 +1,14 @@
+{
+  "name": "My Preso",
+  "sections": [ 
+    "introduction",
+    "pgtap",
+    "sqitch",
+    "workflow"
+  ],
+  "templates" : {
+        "default" : "template.tpl",
+        "titlePage" : "title.tpl"
+    },
+  "page-size" : "Letter"
+}
