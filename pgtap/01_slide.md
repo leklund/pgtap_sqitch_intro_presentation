@@ -1,8 +1,8 @@
 !SLIDE subsection transition=fade
 
 <div class='page_header'>
-<h1>pgTAP<br />
-<small>Unit Testing for PostgreSQL</small></h1>
+<h1>pgTAP</h1>
+<h2>Unit Testing for PostgreSQL</h2>
 </div>
 
 !SLIDE bullets incremental
@@ -46,10 +46,11 @@
 * the format is language agnostic. works with perl, phython, php, etc.
 * Luckily, pgTAP also has a TAP consumer in pg\_prove
 
-!SLIDE bullets incremental transition=wipe
+!SLIDE bullets incremental transition=wipe small
 
 # Why pgTAP?
 
+* TDD SQL!
 * Allows actual testing of your database and not just through an ORM or an applicaiton level API. (less work)
 * easily perform schema validation.
 * In a multi-tenant database (multiple apps, multiple schemas) some functions may be global and pgTAP provides a central way to test not application specific.
@@ -57,8 +58,9 @@
 !SLIDE
 # Installation
 
-1. Download, build and install from here: http://pgxn.org/dist/pgtap/
-2. OR, run the pgtap.sql file against your test database. THe file can be found in the kaboom sqitch repository in the vendor directory.
+1. Download, build, test, and install from here: http://pgxn.org/dist/pgtap/
+2. brew install pgtap
+3. OR, run the pgtap.sql file against your test database. THe file can be found in the kaboom sqitch repository in the vendor directory.
 
 !SLIDE
 # simple test example
@@ -128,20 +130,36 @@ You need to tell pgTAP how many tests you are running. And when the tests are co
     Files=1, Tests=4,  0 wallclock secs ( 0.02 usr +  0.01 sys =  0.03 CPU)
     Result: PASS
 
+!SLIDE bullets incremental smaller
+
+# you can test EVERYTHING!
+
+* `SELECT ok(:boolean, :description);`
+* `SELECT matches(:have, :regex, :description);`
+* `SELECT throws_ok(:sql, :errcode, :ermsg, :description);`
+* `SELECT results_eq(:sql, :sql OR :array ,  :description);`
+* `SELECT columns_are(:schema, :table, :columns, :description);`
+* `SELECT has_index(:schema, :table, :index, :columns );`
+* `SELECT col_has_default(:schema, :table, :column, :description);`
+
 !SLIDE
 
 # more examples
 
 * ./examples/pgtap/
 
+.notes this is where we'll work through the function test example. 
+
 # more documtentation
 
-* http://pgtap.org/documentation.html
-* http://vimeo.com/7972197
-* http://www.slideshare.net/justatheory/pgtap-best-practices
+* <a href="http://pgtap.org/documentation.html">pgTAP docs</a>
+* <a href="http://vimeo.com/7972197">pgTap best practices vimeo</a>
+* <a href="http://www.slideshare.net/justatheory/pgtap-best-practices">pgTap best practices slides</a>
+* <a href="http://www.pgcon.org/2013/schedule/events/615.en.html">agile database development presentation</a>
 
 # not covered
 
 * xUnit style testing.
+* custom tests. 
 
 .notes xUnit style testing allows all your tests to be functions stored in a testing schema rather than sql scripts. The tests can then be run from within a psql console.
