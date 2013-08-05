@@ -1,5 +1,5 @@
 {
-  "name": "My Preso",
+  "name": "pgTAP and sqitch: an introduction",
   "sections": [ 
     "introduction",
     "pgtap",
