@@ -150,13 +150,16 @@ You need to tell pgTAP how many tests you are running. And when the tests are co
 
 .notes this is where we'll work through the function test example. 
 
-# more documtentation
+!SLIDE
+
+# more documentation
 
 * <a href="http://pgtap.org/documentation.html">pgTAP docs</a>
 * <a href="http://vimeo.com/7972197">pgTap best practices vimeo</a>
 * <a href="http://www.slideshare.net/justatheory/pgtap-best-practices">pgTap best practices slides</a>
 * <a href="http://www.pgcon.org/2013/schedule/events/615.en.html">agile database development presentation</a>
 
+!SLIDE
 # not covered
 
 * xUnit style testing.
