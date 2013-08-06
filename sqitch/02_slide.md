@@ -147,8 +147,80 @@ change. This leaves you free to edit the existing files."
 * create or replace function statements are idempotent
 * insert statements not so much
 
+!SLIDE center
+# rework
+![start the rework](images/16_rework.png)
 
+!SLIDE center
 
+# rework plan
+![reworked plan file](images/17_rework.png)
 
+!SLIDE center
 
+# reworked files
+![reworked files](images/18_rework_files.png)
+
+!SLIDE incremental
+# reworked files
+
+* Rework renames the original files with the last tag. `count_old_users.sql > count_old_users@v0.4.3.sql`
+* The original deploy is copied to the new revert and the new deploy
+* The original verify is copied to the new verify
+
+!SLIDE command
+# deploy/count\_old\_users
+
+    @@@ sql
+    -- Deploy count_old_users, reworked
+
+    BEGIN;
+
+    SET search_path=sqex,public;
+
+    CREATE OR REPLACE FUNCTION count_old_users()
+      RETURNS bigint AS
+    $$
+      SELECT count(id) FROM sqex.users
+      WHERE age > 40;
+    $$
+    LANGUAGE sql STABLE;
+
+    COMMIT;
+
+!SLIDE center
+![git diff](images/19_rework_diff.png)
+
+!SLIDE 
+# verify/count\_old\_users
+
+    @@@ sql
+    -- Verify count_old_users
+
+    BEGIN;
+
+    SELECT has_function_privilege(
+      'sqex.count_old_users()', 'execute');
+
+    SELECT 1/COUNT(*)
+    FROM pg_catalog.pg_proc
+    WHERE proname = 'count_old_users'
+    AND pg_get_functiondef(oid)
+      LIKE $$%WHERE age > 40%$$;
+
+    ROLLBACK;
+
+!SLIDE incremental
+# deploy and commit the rework!
+
+* `sqitch deploy`
+* `git add .`
+* `git commit -am 'update count_old_users age conditional'`
+
+!SLIDE incremental
+# Rework Review
+
+* A tag must exist in order to rework a previous change.
+* Your changes should be idempotent. (ie, don't rework a create table statement)
+* The new revert file is the old deploy. This is to preserve state of the original change.
 

@@ -1,3 +1,3 @@
-!SLIDE subsection
+!SLIDE subsection transition=fade
 
-# workflow
+# Draft Workflow
